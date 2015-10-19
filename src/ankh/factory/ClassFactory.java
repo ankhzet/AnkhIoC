@@ -4,6 +4,8 @@ import java.util.HashMap;
 import ankh.builder.Builder;
 import ankh.builder.ClassBuilder;
 import ankh.exceptions.UnknownFactoryProductException;
+import ankh.registrar.AbstractFactoryRegistrar;
+import ankh.registrar.SingleClassFactoryRegistrar;
 import ankh.resolver.DependencyResolver;
 
 public class ClassFactory<P> extends AbstractFactory<Class<? extends P>, P> {
@@ -29,6 +31,16 @@ public class ClassFactory<P> extends AbstractFactory<Class<? extends P>, P> {
         return map.get(c);
 
     throw new UnknownFactoryProductException(id);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T, C extends Class<? extends T>> AbstractFactoryRegistrar<ClassFactory<?>> registerClass(C c) {
+    return new SingleClassFactoryRegistrar(resolver, c);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> AbstractFactoryRegistrar<ClassFactory<?>> registerClass(Class<? extends T> c, Builder<Class<? extends T>, T> builder) {
+    return new SingleClassFactoryRegistrar(resolver, c, builder);
   }
 
 }
