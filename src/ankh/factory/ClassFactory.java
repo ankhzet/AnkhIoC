@@ -4,7 +4,7 @@ import java.util.HashMap;
 import ankh.builder.Builder;
 import ankh.builder.ClassBuilder;
 import ankh.exceptions.UnknownFactoryProductException;
-import ankh.registrar.AbstractFactoryRegistrar;
+import ankh.registrar.FactoryRegistrar;
 import ankh.registrar.SingleClassFactoryRegistrar;
 import ankh.resolver.DependencyResolver;
 
@@ -16,7 +16,7 @@ public class ClassFactory<P> extends AbstractFactory<Class<? extends P>, P> {
 
   @Override
   public Builder<Class<? extends P>, P> register(Class<? extends P> identifier) {
-    return register(identifier, new ClassBuilder<P>(identifier));
+    return register(identifier, new ClassBuilder<>(identifier));
   }
 
   @Override
@@ -34,12 +34,12 @@ public class ClassFactory<P> extends AbstractFactory<Class<? extends P>, P> {
   }
 
   @SuppressWarnings("unchecked")
-  public <T, C extends Class<? extends T>> AbstractFactoryRegistrar<ClassFactory<?>> registerClass(C c) {
+  public <T, C extends Class<? extends T>> FactoryRegistrar<ClassFactory<?>> registerClass(C c) {
     return new SingleClassFactoryRegistrar(resolver, c);
   }
 
   @SuppressWarnings("unchecked")
-  public <T> AbstractFactoryRegistrar<ClassFactory<?>> registerClass(Class<? extends T> c, Builder<Class<? extends T>, T> builder) {
+  public <T> FactoryRegistrar<ClassFactory<?>> registerClass(Class<? extends T> c, Builder<Class<? extends T>, T> builder) {
     return new SingleClassFactoryRegistrar(resolver, c, builder);
   }
 
